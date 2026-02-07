@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -7,7 +7,7 @@ import {
   Dimensions,
   Alert,
   Modal,
-  Image,
+  ScrollView,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
@@ -16,43 +16,67 @@ import { api } from "../utils/api";
 
 const { width } = Dimensions.get("window");
 
-const PIECE_SIZE = (width - 60) / 3;
-
-const PUZZLE_IMAGE = "https://customer-assets.emergentagent.com/job_8ffa4a81-fe77-48cf-a350-8087a11b91ca/artifacts/m8p866wx_WhatsApp%20Image%202026-02-07%20at%2011.35.33%20AM.jpeg";
-
-const SOLUTION = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+const LOVE_QUIZ = [
+  {
+    question: "What is considered the 'love hormone'?",
+    options: ["Dopamine", "Oxytocin", "Serotonin", "Adrenaline"],
+    correct: 1,
+    fact: "Oxytocin is released during hugs, kisses, and cuddles!"
+  },
+  {
+    question: "How long does it take to fall in love?",
+    options: ["1 week", "1 month", "1/5th of a second", "1 year"],
+    correct: 2,
+    fact: "Science says it takes just 1/5th of a second to fall in love!"
+  },
+  {
+    question: "What percentage of the body is made up when you hug someone?",
+    options: ["One complete heart", "Two halves", "Infinite connection", "Perfect match"],
+    correct: 0,
+    fact: "When you hug, your hearts sync up creating one rhythm!"
+  },
+  {
+    question: "Couples who do this together are happier:",
+    options: ["Watch TV", "Cook together", "Laugh together", "All of the above"],
+    correct: 3,
+    fact: "Shared activities strengthen bonds and create lasting memories!"
+  },
+  {
+    question: "The ancient Greeks had how many words for love?",
+    options: ["1", "4", "8", "12"],
+    correct: 2,
+    fact: "Ancient Greeks recognized 8 different types of love!"
+  },
+];
 
 export default function Day4() {
   const router = useRouter();
-  const [pieces, setPieces] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8].sort(() => Math.random() - 0.5));
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [score, setScore] = useState(0);
+  const [showFact, setShowFact] = useState(false);
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
 
-  useEffect(() => {
-    // Preload the image
-    Image.prefetch(PUZZLE_IMAGE).then(() => {
-      setImageLoaded(true);
-    });
-  }, []);
-
-  const handlePiecePress = (index: number) => {
-    if (selectedIndex === null) {
-      setSelectedIndex(index);
-    } else {
-      // Swap pieces
-      const newPieces = [...pieces];
-      [newPieces[selectedIndex], newPieces[index]] = [newPieces[index], newPieces[selectedIndex]];
-      setPieces(newPieces);
-      setSelectedIndex(null);
-
-      // Check if solved
-      if (JSON.stringify(newPieces) === JSON.stringify(SOLUTION)) {
+  const handleAnswer = (answerIndex: number) => {
+    setSelectedAnswer(answerIndex);
+    
+    if (answerIndex === LOVE_QUIZ[currentQuestion].correct) {
+      setScore(score + 1);
+    }
+    
+    setShowFact(true);
+    
+    setTimeout(() => {
+      if (currentQuestion + 1 < LOVE_QUIZ.length) {
+        setCurrentQuestion(currentQuestion + 1);
+        setSelectedAnswer(null);
+        setShowFact(false);
+      } else {
         setTimeout(() => {
           completeDay();
         }, 500);
       }
-    }
+    }, 2500);
   };
 
   const completeDay = async () => {
@@ -69,6 +93,8 @@ export default function Day4() {
     router.push("/");
   };
 
+  const isCorrect = selectedAnswer === LOVE_QUIZ[currentQuestion].correct;
+
   return (
     <View style={styles.container}>
       <LinearGradient colors={["#1a1a1a", "#2d0a1f"]} style={styles.header}>
@@ -76,51 +102,64 @@ export default function Day4() {
           <Ionicons name="arrow-back" size={28} color="#FFC0CB" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>🧸 Teddy Day</Text>
+        <Text style={styles.progress}>
+          Question {currentQuestion + 1} / {LOVE_QUIZ.length}
+        </Text>
       </LinearGradient>
 
-      <View style={styles.gameContainer}>
-        <Text style={styles.instructions}>Solve the jigsaw puzzle! 🧩</Text>
-        
-        {!imageLoaded ? (
-          <View style={styles.loadingContainer}>
-            <Text style={styles.loadingText}>Loading puzzle...</Text>
-          </View>
-        ) : (
-          <View style={styles.puzzleContainer}>
-            {pieces.map((pieceNumber, index) => {
-              const pieceRow = Math.floor(pieceNumber / 3);
-              const pieceCol = pieceNumber % 3;
+      <ScrollView style={styles.gameContainer} contentContainerStyle={styles.scrollContent}>
+        <Text style={styles.instructions}>Love & Relationship Quiz! 💕</Text>
+        <Text style={styles.scoreText}>Score: {score} / {LOVE_QUIZ.length}</Text>
 
-              return (
-                <TouchableOpacity
-                  key={`piece-${index}`}
-                  style={[
-                    styles.puzzlePiece,
-                    selectedIndex === index && styles.selectedPiece,
-                  ]}
-                  onPress={() => handlePiecePress(index)}
+        <View style={styles.questionContainer}>
+          <Text style={styles.questionText}>
+            {LOVE_QUIZ[currentQuestion].question}
+          </Text>
+
+          <View style={styles.optionsContainer}>
+            {LOVE_QUIZ[currentQuestion].options.map((option, index) => (
+              <TouchableOpacity
+                key={index}
+                style={[
+                  styles.optionButton,
+                  selectedAnswer === index && isCorrect && styles.correctOption,
+                  selectedAnswer === index && !isCorrect && styles.wrongOption,
+                ]}
+                onPress={() => handleAnswer(index)}
+                disabled={selectedAnswer !== null}
+              >
+                <LinearGradient
+                  colors={
+                    selectedAnswer === index && isCorrect
+                      ? ["#4CAF50", "#45a049"]
+                      : selectedAnswer === index && !isCorrect
+                      ? ["#f44336", "#da190b"]
+                      : ["#3d1a2e", "#2d0a1f"]
+                  }
+                  style={styles.optionGradient}
                 >
-                  <Image
-                    source={{ uri: PUZZLE_IMAGE }}
-                    style={[
-                      styles.pieceImage,
-                      {
-                        width: PIECE_SIZE * 3,
-                        height: PIECE_SIZE * 3,
-                        left: -pieceCol * PIECE_SIZE,
-                        top: -pieceRow * PIECE_SIZE,
-                      },
-                    ]}
-                    resizeMode="cover"
-                  />
-                </TouchableOpacity>
-              );
-            })}
+                  <Text style={styles.optionText}>{option}</Text>
+                  {selectedAnswer === index && isCorrect && (
+                    <Ionicons name="checkmark-circle" size={24} color="#FFFFFF" />
+                  )}
+                  {selectedAnswer === index && !isCorrect && (
+                    <Ionicons name="close-circle" size={24} color="#FFFFFF" />
+                  )}
+                </LinearGradient>
+              </TouchableOpacity>
+            ))}
           </View>
-        )}
 
-        <Text style={styles.hint}>Tap two pieces to swap them!</Text>
-      </View>
+          {showFact && (
+            <View style={styles.factContainer}>
+              <Text style={styles.factTitle}>💡 Fun Fact:</Text>
+              <Text style={styles.factText}>
+                {LOVE_QUIZ[currentQuestion].fact}
+              </Text>
+            </View>
+          )}
+        </View>
+      </ScrollView>
 
       {/* Result Modal */}
       <Modal visible={showResult} transparent animationType="fade">
@@ -131,6 +170,9 @@ export default function Day4() {
           >
             <Text style={styles.resultEmoji}>🧸✨</Text>
             <Text style={styles.resultTitle}>Teddy Day Complete!</Text>
+            <Text style={styles.quizScore}>
+              You scored {score} out of {LOVE_QUIZ.length}!
+            </Text>
             <Text style={styles.quoteText}>
               happy teddy day to my living, breathing, tall, musuclar, charming teddy :)
             </Text>
@@ -165,62 +207,88 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#FFC0CB",
   },
+  progress: {
+    fontSize: 18,
+    color: "#FFD1DC",
+    fontWeight: "600",
+    marginTop: 8,
+  },
   gameContainer: {
     flex: 1,
+  },
+  scrollContent: {
     padding: 20,
-    alignItems: "center",
   },
   instructions: {
-    fontSize: 18,
+    fontSize: 20,
     color: "#FFB6C1",
     textAlign: "center",
-    fontWeight: "600",
-    marginBottom: 20,
+    fontWeight: "bold",
+    marginBottom: 10,
   },
-  puzzleContainer: {
-    width: PIECE_SIZE * 3,
-    height: PIECE_SIZE * 3,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    borderWidth: 3,
-    borderColor: "#FFC0CB",
-    borderRadius: 12,
-    overflow: "hidden",
-    backgroundColor: "#1a1a1a",
-  },
-  puzzlePiece: {
-    width: PIECE_SIZE,
-    height: PIECE_SIZE,
-    overflow: "hidden",
-    borderWidth: 1,
-    borderColor: "#FFB6C1",
-  },
-  selectedPiece: {
-    borderWidth: 3,
-    borderColor: "#FFC0CB",
-  },
-  pieceImage: {
-    position: "absolute",
-  },
-  hint: {
-    fontSize: 14,
-    color: "#FFD1DC",
-    marginTop: 20,
-    textAlign: "center",
-  },
-  loadingContainer: {
-    width: PIECE_SIZE * 3,
-    height: PIECE_SIZE * 3,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#1a1a1a",
-    borderRadius: 12,
-    borderWidth: 3,
-    borderColor: "#FFC0CB",
-  },
-  loadingText: {
-    color: "#FFC0CB",
+  scoreText: {
     fontSize: 16,
+    color: "#FFC0CB",
+    textAlign: "center",
+    marginBottom: 30,
+    fontWeight: "600",
+  },
+  questionContainer: {
+    marginBottom: 30,
+  },
+  questionText: {
+    fontSize: 22,
+    color: "#FFFFFF",
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 30,
+    lineHeight: 32,
+  },
+  optionsContainer: {
+    gap: 16,
+  },
+  optionButton: {
+    borderRadius: 16,
+    overflow: "hidden",
+    borderWidth: 2,
+    borderColor: "#FFC0CB",
+  },
+  correctOption: {
+    borderColor: "#4CAF50",
+  },
+  wrongOption: {
+    borderColor: "#f44336",
+  },
+  optionGradient: {
+    padding: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  optionText: {
+    fontSize: 16,
+    color: "#FFFFFF",
+    fontWeight: "600",
+    flex: 1,
+  },
+  factContainer: {
+    marginTop: 30,
+    padding: 20,
+    backgroundColor: "rgba(255, 192, 203, 0.1)",
+    borderRadius: 16,
+    borderWidth: 2,
+    borderColor: "#FFC0CB",
+  },
+  factTitle: {
+    fontSize: 18,
+    color: "#FFC0CB",
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  factText: {
+    fontSize: 16,
+    color: "#FFD1DC",
+    lineHeight: 24,
   },
   modalOverlay: {
     flex: 1,
@@ -242,8 +310,14 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: "bold",
     color: "#FFFFFF",
-    marginBottom: 20,
+    marginBottom: 16,
     textAlign: "center",
+  },
+  quizScore: {
+    fontSize: 20,
+    color: "#FFFFFF",
+    fontWeight: "bold",
+    marginBottom: 20,
   },
   quoteText: {
     fontSize: 16,
