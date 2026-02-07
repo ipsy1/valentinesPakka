@@ -56,14 +56,14 @@ export default function Index() {
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#FF69B4" />
+        <ActivityIndicator size="large" color="#FF1493" />
         <Text style={styles.loadingText}>Loading Valentine's Week...</Text>
       </View>
     );
   }
 
   return (
-    <LinearGradient colors={["#FFE5F0", "#FFB6D9", "#FF85B3"]} style={styles.container}>
+    <LinearGradient colors={["#000000", "#1a1a1a", "#2d0a1f"]} style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.header}>
           <Text style={styles.title}>💕 Valentine's Week 💕</Text>
@@ -87,7 +87,6 @@ export default function Index() {
                 style={[
                   styles.dayCard,
                   !isUnlocked && styles.dayCardLocked,
-                  isCompleted && styles.dayCardCompleted,
                 ]}
                 onPress={() => handleDayPress(day.number, day.route, isUnlocked)}
                 disabled={!isUnlocked}
@@ -95,47 +94,38 @@ export default function Index() {
               >
                 <LinearGradient
                   colors={
-                    isCompleted
-                      ? ["#FF1493", "#FF69B4"]
-                      : isUnlocked
-                      ? ["#FFFFFF", "#FFE5F0"]
-                      : ["#E0E0E0", "#BDBDBD"]
+                    !isUnlocked
+                      ? ["#2a2a2a", "#1a1a1a"]
+                      : isCompleted
+                      ? ["#FF1493", "#C71585"]
+                      : ["#3d1a2e", "#2d0a1f"]
                   }
                   style={styles.cardGradient}
                 >
                   <View style={styles.cardContent}>
-                    <View style={styles.iconContainer}>
+                    <View style={[
+                      styles.iconContainer,
+                      isUnlocked && styles.iconContainerUnlocked
+                    ]}>
                       {!isUnlocked ? (
-                        <Ionicons name="lock-closed" size={40} color="#757575" />
+                        <Ionicons name="lock-closed" size={40} color="#555555" />
                       ) : (
                         <Ionicons name={day.icon as any} size={40} color="#FF1493" />
                       )}
                     </View>
 
                     <View style={styles.cardTextContainer}>
-                      <Text
-                        style={[
-                          styles.dayName,
-                          !isUnlocked && styles.dayNameLocked,
-                          isCompleted && styles.dayNameCompleted,
-                        ]}
-                      >
+                      <Text style={[styles.dayName, !isUnlocked && styles.dayNameLocked]}>
                         {day.name}
                       </Text>
-                      <Text
-                        style={[
-                          styles.dayDate,
-                          !isUnlocked && styles.dayDateLocked,
-                          isCompleted && styles.dayDateCompleted,
-                        ]}
-                      >
+                      <Text style={[styles.dayDate, !isUnlocked && styles.dayDateLocked]}>
                         {day.date}
                       </Text>
                     </View>
 
                     {isCompleted && (
                       <View style={styles.completedBadge}>
-                        <Ionicons name="checkmark-circle" size={24} color="#4CAF50" />
+                        <Ionicons name="checkmark-circle" size={24} color="#FFD700" />
                       </View>
                     )}
                   </View>
@@ -161,7 +151,7 @@ const styles = StyleSheet.create({
   },
   loadingContainer: {
     flex: 1,
-    backgroundColor: "#FFE5F0",
+    backgroundColor: "#000000",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -182,19 +172,19 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: "bold",
-    color: "#C71585",
+    color: "#FF1493",
     textAlign: "center",
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 18,
-    color: "#8B0040",
+    color: "#FFB6D9",
     fontWeight: "600",
     fontStyle: "italic",
   },
   replayBadge: {
     marginTop: 16,
-    backgroundColor: "#4CAF50",
+    backgroundColor: "#FF1493",
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
@@ -210,18 +200,11 @@ const styles = StyleSheet.create({
   dayCard: {
     borderRadius: 20,
     overflow: "hidden",
-    elevation: 5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    borderWidth: 2,
+    borderColor: "#FF1493",
   },
   dayCardLocked: {
-    opacity: 0.6,
-  },
-  dayCardCompleted: {
-    borderWidth: 3,
-    borderColor: "#4CAF50",
+    borderColor: "#333333",
   },
   cardGradient: {
     padding: 20,
@@ -234,10 +217,13 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: "rgba(255, 255, 255, 0.5)",
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
     alignItems: "center",
     justifyContent: "center",
     marginRight: 16,
+  },
+  iconContainerUnlocked: {
+    backgroundColor: "rgba(255, 20, 147, 0.2)",
   },
   cardTextContainer: {
     flex: 1,
@@ -245,24 +231,18 @@ const styles = StyleSheet.create({
   dayName: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#C71585",
+    color: "#FFFFFF",
     marginBottom: 4,
   },
   dayNameLocked: {
-    color: "#757575",
-  },
-  dayNameCompleted: {
-    color: "#FFFFFF",
+    color: "#666666",
   },
   dayDate: {
     fontSize: 16,
-    color: "#8B0040",
+    color: "#FFB6D9",
   },
   dayDateLocked: {
-    color: "#9E9E9E",
-  },
-  dayDateCompleted: {
-    color: "#FFE5F0",
+    color: "#555555",
   },
   completedBadge: {
     marginLeft: 8,
@@ -270,12 +250,14 @@ const styles = StyleSheet.create({
   footer: {
     marginTop: 32,
     padding: 16,
-    backgroundColor: "rgba(255, 255, 255, 0.7)",
+    backgroundColor: "rgba(255, 20, 147, 0.1)",
     borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "#FF1493",
   },
   footerText: {
     fontSize: 14,
-    color: "#8B0040",
+    color: "#FFB6D9",
     textAlign: "center",
     fontWeight: "600",
   },
