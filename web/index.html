@@ -435,15 +435,9 @@
             const newProgress = { ...progress };
             newProgress.days[dayId - 1].completed = true;
             
-            if (dayId < 8) {
-                newProgress.days[dayId].unlocked = true;
-            }
-            
-            const allCompleted = newProgress.days.every(d => d.completed);
-            if (allCompleted) {
-                newProgress.replayMode = true;
-                newProgress.days.forEach(d => d.unlocked = true);
-            }
+            // Keep all days unlocked
+            newProgress.days.forEach(d => d.unlocked = true);
+            newProgress.replayMode = true;
             
             saveProgress(newProgress);
             return newProgress;
