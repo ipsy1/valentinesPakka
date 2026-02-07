@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 28,
     fontWeight: "bold",
-    color: "#C71585",
+    color: "#FF1493",
   },
   progress: {
     fontSize: 18,
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   },
   instructionText: {
     fontSize: 16,
-    color: "#C71585",
+    color: "#FF1493",
     textAlign: "center",
     fontWeight: "600",
   },

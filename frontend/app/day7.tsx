@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 28,
     fontWeight: "bold",
-    color: "#C71585",
+    color: "#FF1493",
   },
   progress: {
     fontSize: 18,
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   },
   instructions: {
     fontSize: 18,
-    color: "#C71585",
+    color: "#FF1493",
     textAlign: "center",
     fontWeight: "600",
     marginBottom: 30,
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
   },
   optionText: {
     fontSize: 18,
-    color: "#C71585",
+    color: "#FF1493",
     fontWeight: "600",
   },
   modalOverlay: {

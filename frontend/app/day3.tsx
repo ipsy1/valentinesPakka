@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 28,
     fontWeight: "bold",
-    color: "#C71585",
+    color: "#FF1493",
   },
   statsContainer: {
     flexDirection: "row",
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
   },
   instructions: {
     fontSize: 18,
-    color: "#C71585",
+    color: "#FF1493",
     textAlign: "center",
     fontWeight: "600",
     marginTop: 20,
