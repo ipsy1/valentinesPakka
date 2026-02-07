@@ -112,7 +112,7 @@ export default function Day4() {
       <Modal visible={showResult} transparent animationType="fade">
         <View style={styles.modalOverlay}>
           <LinearGradient
-            colors={["#FF69B4", "#FF1493"]}
+            colors={["#FF1493", "#C71585"]}
             style={styles.resultContainer}
           >
             <Text style={styles.resultEmoji}>🧸✨</Text>
@@ -133,7 +133,7 @@ export default function Day4() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFE5F0",
+    backgroundColor: "#000000",
   },
   header: {
     paddingTop: 50,
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 28,
     fontWeight: "bold",
-    color: "#C71585",
+    color: "#FF1493",
   },
   gameContainer: {
     flex: 1,
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   },
   instructions: {
     fontSize: 18,
-    color: "#C71585",
+    color: "#FF69B4",
     textAlign: "center",
     fontWeight: "600",
     marginBottom: 20,
@@ -168,17 +168,18 @@ const styles = StyleSheet.create({
     height: PIECE_SIZE * 3,
     flexDirection: "row",
     flexWrap: "wrap",
-    borderWidth: 2,
-    borderColor: "#C71585",
+    borderWidth: 3,
+    borderColor: "#FF1493",
     borderRadius: 12,
     overflow: "hidden",
+    backgroundColor: "#1a1a1a",
   },
   puzzlePiece: {
     width: PIECE_SIZE,
     height: PIECE_SIZE,
     overflow: "hidden",
     borderWidth: 1,
-    borderColor: "#FFB6D9",
+    borderColor: "#FF69B4",
   },
   selectedPiece: {
     borderWidth: 3,
@@ -189,13 +190,13 @@ const styles = StyleSheet.create({
   },
   hint: {
     fontSize: 14,
-    color: "#8B0040",
+    color: "#FFB6D9",
     marginTop: 20,
     textAlign: "center",
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    backgroundColor: "rgba(0, 0, 0, 0.9)",
     alignItems: "center",
     justifyContent: "center",
   },
