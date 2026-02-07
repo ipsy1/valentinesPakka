@@ -408,52 +408,47 @@
         const { useState, useEffect } = React;
 
         // Utility functions
-        const getProgress = () => {
-            const saved = localStorage.getItem('valentineProgress');
-            if (saved) return JSON.parse(saved);
-            
-            return {
-                days: [
-                    { id: 1, name: "Rose Day", date: "Feb 7", unlocked: true, completed: false },
-                    { id: 2, name: "Propose Day", date: "Feb 8", unlocked: true, completed: false },
-                    { id: 3, name: "Chocolate Day", date: "Feb 9", unlocked: true, completed: false },
-                    { id: 4, name: "Teddy Day", date: "Feb 10", unlocked: true, completed: false },
-                    { id: 5, name: "Promise Day", date: "Feb 11", unlocked: true, completed: false },
-                    { id: 6, name: "Hug Day", date: "Feb 12", unlocked: true, completed: false },
-                    { id: 7, name: "Kiss Day", date: "Feb 13", unlocked: true, completed: false },
-                    { id: 8, name: "Valentine's Day", date: "Feb 14", unlocked: true, completed: false },
-                ],
-                replayMode: true
-            };
-        };
+const getProgress = () => {
+  const saved = localStorage.getItem('valentineProgress');
 
-        const saveProgress = (progress) => {
-            localStorage.setItem('valentineProgress', JSON.stringify(progress));
-        };
+  if (saved) return JSON.parse(saved);
 
-        const completeDay = (dayId, progress) => {
-            const newProgress = { ...progress };
-            newProgress.days[dayId - 1].completed = true;
-            
-            // Keep all days unlocked
-            newProgress.days.forEach(d => d.unlocked = true);
-            newProgress.replayMode = true;
-            
-            saveProgress(newProgress);
-            return newProgress;
-        };
+  const progress = {
+    days: [
+      { id: 1, name: "Rose Day", date: "Feb 7", completed: false },
+      { id: 2, name: "Propose Day", date: "Feb 8", completed: false },
+      { id: 3, name: "Chocolate Day", date: "Feb 9", completed: false },
+      { id: 4, name: "Teddy Day", date: "Feb 10", completed: false },
+      { id: 5, name: "Promise Day", date: "Feb 11", completed: false },
+      { id: 6, name: "Hug Day", date: "Feb 12", completed: false },
+      { id: 7, name: "Kiss Day", date: "Feb 13", completed: false },
+      { id: 8, name: "Valentine's Day", date: "Feb 14", completed: false },
+    ]
+  };
+
+  localStorage.setItem('valentineProgress', JSON.stringify(progress));
+  return progress;
+};
+
+const saveProgress = (progress) => {
+  localStorage.setItem('valentineProgress', JSON.stringify(progress));
+};
+
+const completeDay = (dayId, progress) => {
+  const newProgress = { ...progress };
+  newProgress.days[dayId - 1].completed = true;
+  saveProgress(newProgress);
+  return newProgress;
+};
 
         // Main App Component
         function App() {
             const [currentScreen, setCurrentScreen] = useState('home');
             const [progress, setProgress] = useState(getProgress());
 
-            const handleDayClick = (day) => {
-                if (day.unlocked) {
-                    setCurrentScreen(`day${day.id}`);
-                }
-            };
-
+const handleDayClick = (day) => {
+  setCurrentScreen(`day${day.id}`);
+};
             const handleComplete = (dayId) => {
                 const newProgress = completeDay(dayId, progress);
                 setProgress(newProgress);
@@ -488,49 +483,38 @@
             return <div className="container">{renderScreen()}</div>;
         }
 
-        // Home Screen Component
-        function HomeScreen({ progress, onDayClick }) {
-            const dayIcons = ['🌹', '💖', '🍫', '🧸', '🤝', '🤗', '💋', '💕'];
+function HomeScreen({ progress, onDayClick }) {
+  const dayIcons = ['🌹', '💖', '🍫', '🧸', '🤝', '🤗', '💋', '💕'];
 
-            return (
-                <div>
-                    <div className="header">
-                        <h1 className="title">💕 Valentine's Week 💕</h1>
-                        <p className="subtitle">For My Love, Naman</p>
-                        {progress.replayMode && (
-                            <div className="replay-badge">
-                                🎮 Replay Mode Active!
-                            </div>
-                        )}
-                    </div>
+  return (
+    <div>
+      <div className="header">
+        <h1 className="title">💕 Valentine's Week 💕</h1>
+        <p className="subtitle">For My Love, Naman</p>
+      </div>
 
-                    <div className="days-grid">
-                        {progress.days.map((day, index) => (
-                            <div
-                                key={day.id}
-                                className={`day-card ${!day.unlocked ? 'locked' : ''} ${day.completed ? 'completed' : ''}`}
-                                onClick={() => onDayClick(day)}
-                            >
-                                <div className="day-icon">
-                                    {day.unlocked ? dayIcons[index] : '🔒'}
-                                </div>
-                                <div className="day-info">
-                                    <div className="day-name">{day.name}</div>
-                                    <div className="day-date">{day.date}</div>
-                                </div>
-                                {day.completed && <div className="checkmark">✓</div>}
-                            </div>
-                        ))}
-                    </div>
+      <div className="days-grid">
+        {progress.days.map((day, index) => (
+          <div
+            key={day.id}
+            className={`day-card ${day.completed ? 'completed' : ''}`}
+            onClick={() => onDayClick(day)}
+          >
+            <div className="day-icon">{dayIcons[index]}</div>
 
-                    <div style={{ textAlign: 'center', marginTop: '30px', padding: '20px', background: 'rgba(255, 192, 203, 0.1)', borderRadius: '15px', border: '2px solid #FFC0CB' }}>
-                        <p style={{ color: '#FFD1DC', fontSize: '1.1em' }}>
-                            Complete each day's puzzle to unlock the next! 🎁
-                        </p>
-                    </div>
-                </div>
-            );
-        }
+            <div className="day-info">
+              <div className="day-name">{day.name}</div>
+              <div className="day-date">{day.date}</div>
+            </div>
+
+            {day.completed && <div className="checkmark">✓</div>}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 
         // Day 1 - Rose Day
         function Day1({ onComplete, onBack }) {
