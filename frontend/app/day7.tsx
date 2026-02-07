@@ -111,7 +111,7 @@ export default function Day7() {
       <Modal visible={showResult} transparent animationType="fade">
         <View style={styles.modalOverlay}>
           <LinearGradient
-            colors={["#FF1493", "#C71585"]}
+            colors={["#FFC0CB", "#C71585"]}
             style={styles.resultContainer}
           >
             <Text style={styles.resultEmoji}>💋✨</Text>
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 28,
     fontWeight: "bold",
-    color: "#FF1493",
+    color: "#FFC0CB",
   },
   progress: {
     fontSize: 18,
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   },
   instructions: {
     fontSize: 18,
-    color: "#FF1493",
+    color: "#FFC0CB",
     textAlign: "center",
     fontWeight: "600",
     marginBottom: 30,
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
   },
   optionText: {
     fontSize: 18,
-    color: "#FF1493",
+    color: "#FFC0CB",
     fontWeight: "600",
   },
   modalOverlay: {
@@ -239,6 +239,6 @@ const styles = StyleSheet.create({
   continueButtonText: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#FF1493",
+    color: "#FFC0CB",
   },
 });

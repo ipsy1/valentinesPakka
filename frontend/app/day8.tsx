@@ -60,7 +60,7 @@ export default function Day8() {
 
           <TouchableOpacity style={styles.revealButton} onPress={handleReveal}>
             <LinearGradient
-              colors={["#FF1493", "#C71585"]}
+              colors={["#FFC0CB", "#C71585"]}
               style={styles.buttonGradient}
             >
               <Text style={styles.revealButtonText}>Reveal My Gift 🎁</Text>
@@ -73,7 +73,7 @@ export default function Day8() {
       <Modal visible={showResult} transparent animationType="fade">
         <View style={styles.modalOverlay}>
           <LinearGradient
-            colors={["#FF1493", "#C71585", "#8B0040"]}
+            colors={["#FFC0CB", "#C71585", "#8B0040"]}
             style={styles.resultContainer}
           >
             <Text style={styles.resultEmoji}>💖✨💕</Text>
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 32,
     fontWeight: "bold",
-    color: "#FF1493",
+    color: "#FFC0CB",
     textAlign: "center",
     marginBottom: 8,
   },
@@ -227,6 +227,6 @@ const styles = StyleSheet.create({
   continueButtonText: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#FF1493",
+    color: "#FFC0CB",
   },
 });

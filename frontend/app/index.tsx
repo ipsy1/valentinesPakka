@@ -56,7 +56,7 @@ export default function Index() {
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#FF1493" />
+        <ActivityIndicator size="large" color="#FFC0CB" />
         <Text style={styles.loadingText}>Loading Valentine's Week...</Text>
       </View>
     );
@@ -97,7 +97,7 @@ export default function Index() {
                     !isUnlocked
                       ? ["#2a2a2a", "#1a1a1a"]
                       : isCompleted
-                      ? ["#FF1493", "#C71585"]
+                      ? ["#FFC0CB", "#C71585"]
                       : ["#3d1a2e", "#2d0a1f"]
                   }
                   style={styles.cardGradient}
@@ -110,7 +110,7 @@ export default function Index() {
                       {!isUnlocked ? (
                         <Ionicons name="lock-closed" size={40} color="#555555" />
                       ) : (
-                        <Ionicons name={day.icon as any} size={40} color="#FF1493" />
+                        <Ionicons name={day.icon as any} size={40} color="#FFC0CB" />
                       )}
                     </View>
 
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   loadingText: {
     marginTop: 16,
     fontSize: 16,
-    color: "#FF1493",
+    color: "#FFC0CB",
     fontWeight: "600",
   },
   scrollContent: {
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: "bold",
-    color: "#FF1493",
+    color: "#FFC0CB",
     textAlign: "center",
     marginBottom: 8,
   },
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
   },
   replayBadge: {
     marginTop: 16,
-    backgroundColor: "#FF1493",
+    backgroundColor: "#FFC0CB",
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     overflow: "hidden",
     borderWidth: 2,
-    borderColor: "#FF1493",
+    borderColor: "#FFC0CB",
   },
   dayCardLocked: {
     borderColor: "#333333",
@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255, 20, 147, 0.1)",
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: "#FF1493",
+    borderColor: "#FFC0CB",
   },
   footerText: {
     fontSize: 14,

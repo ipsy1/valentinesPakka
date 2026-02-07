@@ -74,7 +74,7 @@ export default function Day6() {
     <View style={styles.container}>
       <LinearGradient colors={["#1a1a1a", "#2d0a1f"]} style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-          <Ionicons name="arrow-back" size={28} color="#FF1493" />
+          <Ionicons name="arrow-back" size={28} color="#FFC0CB" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>🤗 Hug Day</Text>
         <Text style={styles.progress}>Hearts: {collectedCount} / 10</Text>
@@ -116,7 +116,7 @@ export default function Day6() {
       <Modal visible={showResult} transparent animationType="fade">
         <View style={styles.modalOverlay}>
           <LinearGradient
-            colors={["#FF1493", "#C71585"]}
+            colors={["#FFC0CB", "#C71585"]}
             style={styles.resultContainer}
           >
             <Text style={styles.resultEmoji}>🤗✨</Text>
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 28,
     fontWeight: "bold",
-    color: "#FF1493",
+    color: "#FFC0CB",
   },
   progress: {
     fontSize: 18,
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255, 20, 147, 0.2)",
     borderRadius: 30,
     borderWidth: 2,
-    borderColor: "#FF1493",
+    borderColor: "#FFC0CB",
   },
   heartCollected: {
     backgroundColor: "rgba(255, 215, 0, 0.3)",
@@ -242,6 +242,6 @@ const styles = StyleSheet.create({
   continueButtonText: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#FF1493",
+    color: "#FFC0CB",
   },
 });

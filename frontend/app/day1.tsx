@@ -113,7 +113,7 @@ export default function Day1() {
       >
         <View style={styles.modalOverlay}>
           <LinearGradient
-            colors={["#FF1493", "#C71585"]}
+            colors={["#FFC0CB", "#C71585"]}
             style={styles.resultContainer}
           >
             <Text style={styles.resultEmoji}>🌹✨</Text>
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 28,
     fontWeight: "bold",
-    color: "#FF1493",
+    color: "#FFC0CB",
   },
   progress: {
     fontSize: 18,
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   },
   instructionText: {
     fontSize: 16,
-    color: "#FF1493",
+    color: "#FFC0CB",
     textAlign: "center",
     fontWeight: "600",
   },
@@ -238,6 +238,6 @@ const styles = StyleSheet.create({
   continueButtonText: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#FF1493",
+    color: "#FFC0CB",
   },
 });
