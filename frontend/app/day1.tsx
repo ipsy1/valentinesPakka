@@ -64,7 +64,7 @@ export default function Day1() {
 
   return (
     <View style={styles.container}>
-      <LinearGradient colors={["#FFE5F0", "#FFB6D9"]} style={styles.header}>
+      <LinearGradient colors={["#1a1a1a", "#2d0a1f"]} style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={28} color="#C71585" />
         </TouchableOpacity>
