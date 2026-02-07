@@ -146,7 +146,7 @@ export default function Day2() {
               disabled={card.flipped || card.matched}
             >
               <LinearGradient
-                colors={card.flipped || card.matched ? ["#FF69B4", "#FFC0CB"] : ["#FFFFFF", "#FFE5F0"]}
+                colors={card.flipped || card.matched ? ["#FFB6C1", "#FFC0CB"] : ["#FFFFFF", "#FFE5F0"]}
                 style={styles.cardInner}
               >
                 <Text style={styles.cardEmoji}>

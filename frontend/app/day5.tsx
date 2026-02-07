@@ -152,7 +152,7 @@ export default function Day5() {
               <LinearGradient
                 colors={
                   card.flipped || card.matched
-                    ? ["#FF69B4", "#FFC0CB"]
+                    ? ["#FFB6C1", "#FFC0CB"]
                     : ["#FFFFFF", "#FFE5F0"]
                 }
                 style={styles.cardInner}

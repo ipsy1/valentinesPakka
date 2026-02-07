@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
   },
   instructions: {
     fontSize: 18,
-    color: "#FF69B4",
+    color: "#FFB6C1",
     textAlign: "center",
     fontWeight: "600",
     marginBottom: 20,
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     height: PIECE_SIZE,
     overflow: "hidden",
     borderWidth: 1,
-    borderColor: "#FF69B4",
+    borderColor: "#FFB6C1",
   },
   selectedPiece: {
     borderWidth: 3,
