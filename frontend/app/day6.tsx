@@ -11,35 +11,46 @@ import {
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
-import Svg, { Path } from "react-native-svg";
 import { api } from "../utils/api";
 
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
-interface Point {
-  x: number;
-  y: number;
-}
+// Generate random heart positions
+const generateHearts = () => {
+  const hearts = [];
+  for (let i = 0; i < 10; i++) {
+    hearts.push({
+      id: i,
+      x: Math.random() * (width - 100) + 20,
+      y: Math.random() * 400 + 50,
+      collected: false,
+    });
+  }
+  return hearts;
+};
 
 export default function Day6() {
   const router = useRouter();
-  const [points, setPoints] = useState<Point[]>([]);
+  const [hearts, setHearts] = useState(generateHearts());
+  const [collectedCount, setCollectedCount] = useState(0);
   const [showResult, setShowResult] = useState(false);
 
-  const handleTouch = (event: any) => {
-    const { locationX, locationY } = event.nativeEvent;
-    const newPoints = [...points, { x: locationX, y: locationY }];
-    setPoints(newPoints);
+  const handleHeartPress = (id: number) => {
+    const heart = hearts.find((h) => h.id === id);
+    if (heart && !heart.collected) {
+      const updatedHearts = hearts.map((h) =>
+        h.id === id ? { ...h, collected: true } : h
+      );
+      setHearts(updatedHearts);
+      const newCount = collectedCount + 1;
+      setCollectedCount(newCount);
 
-    if (newPoints.length >= 20) {
-      setTimeout(() => {
-        completeDay();
-      }, 500);
+      if (newCount === 10) {
+        setTimeout(() => {
+          completeDay();
+        }, 500);
+      }
     }
-  };
-
-  const resetDrawing = () => {
-    setPoints([]);
   };
 
   const completeDay = async () => {
@@ -56,44 +67,40 @@ export default function Day6() {
     router.push("/");
   };
 
-  const createPath = () => {
-    if (points.length === 0) return "";
-    let path = `M ${points[0].x} ${points[0].y}`;
-    for (let i = 1; i < points.length; i++) {
-      path += ` L ${points[i].x} ${points[i].y}`;
-    }
-    return path;
-  };
-
   return (
     <View style={styles.container}>
-      <LinearGradient colors={["#FFE5F0", "#FFB6D9"]} style={styles.header}>
+      <LinearGradient colors={["#1a1a1a", "#2d0a1f"]} style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-          <Ionicons name="arrow-back" size={28} color="#C71585" />
+          <Ionicons name="arrow-back" size={28} color="#FF1493" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>🤗 Hug Day</Text>
-        <Text style={styles.progress}>Points: {points.length} / 20</Text>
+        <Text style={styles.progress}>Hearts: {collectedCount} / 10</Text>
       </LinearGradient>
 
       <View style={styles.gameContainer}>
-        <Text style={styles.instructions}>Draw a big hug! Draw anywhere to create a pattern! 🤗</Text>
+        <Text style={styles.instructions}>Collect all the hug hearts! 🤗💕</Text>
 
-        <View style={styles.canvasContainer} onTouchMove={handleTouch}>
-          <Svg height="100%" width="100%">
-            <Path
-              d={createPath()}
-              stroke="#FF1493"
-              strokeWidth="8"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </Svg>
+        <View style={styles.heartsContainer}>
+          {hearts.map((heart) => (
+            <TouchableOpacity
+              key={heart.id}
+              style={[
+                styles.heart,
+                {
+                  left: heart.x,
+                  top: heart.y,
+                },
+                heart.collected && styles.heartCollected,
+              ]}
+              onPress={() => handleHeartPress(heart.id)}
+              disabled={heart.collected}
+            >
+              <Text style={styles.heartEmoji}>
+                {heart.collected ? "✨" : "🤗"}
+              </Text>
+            </TouchableOpacity>
+          ))}
         </View>
-
-        <TouchableOpacity style={styles.resetButton} onPress={resetDrawing}>
-          <Text style={styles.resetButtonText}>Clear</Text>
-        </TouchableOpacity>
       </View>
 
       {/* Result Modal */}
