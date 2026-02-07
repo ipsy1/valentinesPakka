@@ -83,27 +83,33 @@ export default function Day6() {
       <View style={styles.gameContainer}>
         <Text style={styles.instructions}>Collect all the hug hearts! 🤗💕</Text>
 
-        <View style={styles.heartsContainer}>
-          {hearts.map((heart) => (
-            <TouchableOpacity
-              key={heart.id}
-              style={[
-                styles.heart,
-                {
-                  left: heart.x,
-                  top: heart.y,
-                },
-                heart.collected && styles.heartCollected,
-              ]}
-              onPress={() => handleHeartPress(heart.id)}
-              disabled={heart.collected}
-            >
-              <Text style={styles.heartEmoji}>
-                {heart.collected ? "✨" : "🤗"}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+        <ImageBackground 
+          source={{ uri: BACKGROUND_IMAGE }}
+          style={styles.heartsContainer}
+          resizeMode="cover"
+        >
+          <View style={styles.overlay}>
+            {hearts.map((heart) => (
+              <TouchableOpacity
+                key={heart.id}
+                style={[
+                  styles.heart,
+                  {
+                    left: heart.x,
+                    top: heart.y,
+                  },
+                  heart.collected && styles.heartCollected,
+                ]}
+                onPress={() => handleHeartPress(heart.id)}
+                disabled={heart.collected}
+              >
+                <Text style={styles.heartEmoji}>
+                  {heart.collected ? "✨" : "🤗"}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </ImageBackground>
       </View>
 
       {/* Result Modal */}
