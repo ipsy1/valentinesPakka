@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     backgroundColor: "rgba(255, 255, 255, 0.1)",
     borderWidth: 2,
-    borderColor: "rgba(255, 20, 147, 0.3)",
+    borderColor: "rgba(255, 192, 203, 0.3)",
   },
   foundRose: {
     backgroundColor: "rgba(255, 255, 255, 0.8)",

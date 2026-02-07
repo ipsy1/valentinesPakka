@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   iconContainerUnlocked: {
-    backgroundColor: "rgba(255, 20, 147, 0.2)",
+    backgroundColor: "rgba(255, 192, 203, 0.2)",
   },
   cardTextContainer: {
     flex: 1,
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
   footer: {
     marginTop: 32,
     padding: 16,
-    backgroundColor: "rgba(255, 20, 147, 0.1)",
+    backgroundColor: "rgba(255, 192, 203, 0.1)",
     borderRadius: 16,
     borderWidth: 1,
     borderColor: "#FFC0CB",
